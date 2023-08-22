@@ -36,9 +36,10 @@ jobs:
           pip install -r requirements.txt
           # Add the Ubuntu GIS PPA
           sudo add-apt-repository ppa:ubuntugis/ppa
+          sudo apt update
           sudo apt-get update
           # Install geos library (shapely requirement)
-          sudo apt-get install geos
+          sudo apt-get install libgeos++-dev libgeos3.10.2 libgeos-c1v5 libgeos-dev libgeos-doc
         working-directory: python-package
 
       - name: Save dependencies
