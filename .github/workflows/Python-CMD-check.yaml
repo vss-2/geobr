@@ -1,16 +1,4 @@
-on:
-  push:
-    paths:
-      - python-package/**
-    branches:
-      - master
-      - issue-322
-  pull_request:
-    paths:
-      - python-package/**
-    branches:
-      - master
-      - issue-322
+on: [push]
 
 name: Python-CMD-check
 
