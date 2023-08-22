@@ -42,16 +42,18 @@ jobs:
       - name: Install testing dependencies
         run: |
           pip install pytest
-          pip install pytest-cov
+          pip install coverage
 
       - name: Run tests
-        run: pytest --junit-xml=test-results.xml --cov=geobr ./tests
+        run: |
+          coverage pytest -x --cov=geobr ./tests
+          coverage report -m >> test-results.txt
         working-directory: python-package
 
       - name: Upload check results
         if: always()
         uses: actions/upload-artifact@main
         with:
-          name: test-results.xml
+          name: test-results.txt
           path: python-package
           if-no-files-found: warn
