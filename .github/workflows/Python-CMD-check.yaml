@@ -4,13 +4,13 @@ on:
       - python-package/**
     branches:
       - master
-      - issue-*
+      - issue-322
   pull_request:
     paths:
       - python-package/**
     branches:
       - master
-      - issue-*
+      - issue-322
 
 name: Python-CMD-check
 
