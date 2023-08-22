@@ -46,7 +46,7 @@ jobs:
 
       - name: Run tests
         run: |
-          coverage pytest -x --cov=geobr ./tests
+          coverage run -m pytest -x --cov=geobr ./tests
           coverage report -m >> test-results.txt
         working-directory: python-package
 
