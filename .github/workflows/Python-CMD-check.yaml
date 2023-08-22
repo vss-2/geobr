@@ -45,7 +45,7 @@ jobs:
           pip install pytest-cov
 
       - name: Run tests
-        run: pytest --junit-xml=test-results.xml --cov=geobr /tests
+        run: pytest --junit-xml=test-results.xml --cov=geobr ./tests
         working-directory: python-package
 
       - name: Upload check results
