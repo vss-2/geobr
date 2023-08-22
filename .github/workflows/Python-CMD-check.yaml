@@ -52,5 +52,4 @@ jobs:
         if: always()
         uses: actions/upload-artifact@main
         with:
-          files: |
-            test-results.xml
+          path: ./test-results.xml
