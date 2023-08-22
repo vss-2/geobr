@@ -1,0 +1,65 @@
+on:
+  push:
+    paths:
+      - python-package/**
+    branches:
+      - master
+  pull_request:
+    paths:
+      - python-package/**
+    branches:
+      - master
+
+name: Python-CMD-check
+
+jobs:
+  Python-CMD-check:
+    runs-on: ${{ matrix.os }}
+
+    name: ${{ matrix.os }} (${{ matrix.python-version }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04] #, macOS-latest, windows-latest]
+        python-version: ["3.8"] #, "3.9", "3.10", "3.11"] 
+        # Python 3.8 support ends in 2024-10
+        # Python 3.12 support starts in 2023-10
+        # Other Python maintenance dates: https://www.python.org/downloads/
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python ${{ matrix.python-version }}
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        working-directory: python-package
+
+      - name: Save dependencies
+        run: pip freeze > requirements.txt
+
+      - name: Install testing dependencies
+        run: |
+          pip install pytest
+          pip install pytest-cov
+
+      - name: Run tests
+        run: pytest --junit-xml=test-results.xml --cov=geobr /tests
+        working-directory: python-package
+
+      - name: Upload check results
+        if: always()
+        uses: actions/upload-artifact@main
+        with:
+          files: |
+            test-results.xml
