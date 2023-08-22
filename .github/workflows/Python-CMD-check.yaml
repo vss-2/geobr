@@ -52,4 +52,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@main
         with:
-          path: ./test-results.xml
+          name: test-results.xml
+          path: python-package
+          if-no-files-found: warn
