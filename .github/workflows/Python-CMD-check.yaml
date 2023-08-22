@@ -11,8 +11,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04] #, macOS-latest, windows-latest]
-        python-version: ["3.8"] #, "3.9", "3.10", "3.11"] 
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        python-version: ["3.8", "3.11"] #, "3.9", "3.10", "3.11"] 
         # Python 3.8 support ends in 2024-10
         # Python 3.12 support starts in 2023-10
         # Other Python maintenance dates: https://www.python.org/downloads/
@@ -47,13 +47,13 @@ jobs:
       - name: Run tests
         run: |
           coverage run -m pytest -x ./tests
-          coverage report -m >> test-results.txt
+          coverage report --omit="tests/" -m >> test-results.txt
         working-directory: python-package
 
       - name: Upload check results
         if: always()
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v3
         with:
-          name: test-results.txt
-          path: python-package
+          name: test-results
+          path: python-package/test-results.txt
           if-no-files-found: warn
